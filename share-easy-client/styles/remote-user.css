@@ -1,0 +1,13 @@
+.plate {
+  margin: 1rem 0;
+  padding: 0.7rem;
+  background-color: #fafafa;
+  /* border: 0.05rem solid #aaa; */
+  border-radius: 0.3rem;
+  box-shadow: 1px 1px 0.5px #999, 0 0 1px #aaa;
+}
+
+.plate__label {
+  width: 100%;
+  display: block;
+}

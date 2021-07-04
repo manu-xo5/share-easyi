@@ -1,0 +1,19 @@
+.filesContainer {
+  padding: 0.5rem 1rem;
+  background-color: #fff;
+  border: 0.05rem solid var(--border);
+  border-radius: 0.4rem;
+  color: var(--main2);
+}
+
+.filesListTitle {
+  font-weight: 600;
+}
+
+.fileList {
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+  /* color: var(--main2); */
+  display: flex;
+  flex-direction: column;
+}

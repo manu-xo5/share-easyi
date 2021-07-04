@@ -1,0 +1,12 @@
+.localPeerId {
+  margin-top: 0.9rem;
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 1rem;
+
+  background-color: #fff;
+  border: 0.05rem solid var(--border);
+  border-radius: 0.4rem;
+
+  color: var(--main2);
+  font-size: 0.9rem;
+}
