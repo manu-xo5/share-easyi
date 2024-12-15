@@ -28,14 +28,14 @@ function App() {
   const [received, setReceived] = useState<filemeta[]>([]);
 
   useEffect(() => {
-    const myPeer = new Peer(undefined, {
+    const myPeer = new Peer("", {
       host: "0.peerjs.com",
     });
 
     myPeer.on("open", () => {
       setPeer(myPeer);
       // successfully connects to server
-      const mySocket = io("/", {
+      const mySocket = io("localhost:5000", {
         path: "/io",
       });
       mySocket.on("connect", () => {
@@ -50,7 +50,10 @@ function App() {
     });
     // remote calls us
     myPeer.on("connection", (conn) => {
-      conn.on("data", (data: file | willReceive) => {
+      console.log("connecting");
+      conn.on("data", (_data) => {
+        const data = _data as unknown as file | willReceive;
+
         switch (data.type) {
           case "BINARY": {
             const a = document.createElement("a");
@@ -120,8 +123,8 @@ function App() {
 
   return (
     <>
-      {" "}
       <main className="container">
+        <a href="/video">Video</a>
         <h1 className="hero">Share Easy</h1>
 
         <h2 className="title"> Remote Users </h2>

@@ -12,10 +12,15 @@ let conns = new Map();
 app.use(
   cors({
     origin: "/",
-  })
+  }),
 );
 app.use("/", Express.static(path.join(__dirname, "/dist")));
 
+app.get("/ping", (_, res) => {
+  res.send("pong");
+});
+
+console.log("hello world");
 const server = app.listen(PORT, () => console.log(`HTTP listening on ${PORT}`));
 
 const io = require("socket.io")(server, {

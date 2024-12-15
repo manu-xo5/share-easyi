@@ -5,6 +5,7 @@ import "../styles/global.css";
 import About from "./pages/about";
 import { Outlet, Route } from "./module/router";
 import Page404 from "./pages/page-404";
+import { Video } from "./pages/video";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,6 +15,10 @@ ReactDOM.render(
 
     <Route exact path="/">
       <App />
+    </Route>
+
+    <Route exact path="/video">
+      <Video />
     </Route>
 
     <Route path=".*">
