@@ -1,8 +1,17 @@
-import React, { useContext } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { RoutesCtx } from "./router";
+
+const navigationCtx = createContext<(path: string) => void>(() => {});
 
 export function Outlet() {
   const routes = useContext(RoutesCtx);
+  const [count, rerender] = useReducer((p) => ++p, 0);
+
+  function navigate(path: string) {
+    history.pushState(null, "", path);
+    rerender();
+  }
+
   const route = routes.find((route) => {
     const matches = new RegExp(route.test + "\\w*").exec(location.pathname);
 
@@ -25,5 +34,16 @@ export function Outlet() {
     return <p>"404"</p>;
   }
 
-  return <route.component />;
+  useEffect(() => {
+    window.addEventListener("popstate", rerender);
+    return () => window.removeEventListener("popstate", rerender);
+  });
+
+  return (
+    <navigationCtx.Provider key={count} value={navigate}>
+      <route.component />
+    </navigationCtx.Provider>
+  );
 }
+
+export const useNavigate = () => useContext(navigationCtx);

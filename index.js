@@ -5,19 +5,38 @@ const cors = require("cors");
 
 const PORT = process.env.PORT || 5000;
 const app = Express();
+app.use(Express.json());
 
 /** @type {Map<Socket, { id: string; address: string }>} */
 let conns = new Map();
 
 app.use(
   cors({
-    origin: "/",
+    origin: "*",
   }),
 );
 app.use("/", Express.static(path.join(__dirname, "/dist")));
 
 app.get("/ping", (_, res) => {
   res.send("pong");
+});
+
+const ids = new Map();
+
+app.get("/peer", (req, res) => {
+  res.json({
+    offerString: ids.get(req.query.pin),
+  });
+});
+
+app.post("/peer", (req, res) => {
+  console.log(req.body);
+  const newPin = createPin();
+  ids.set(newPin, req.body);
+
+  res.send({
+    pin: newPin,
+  });
 });
 
 console.log("hello world");
@@ -66,3 +85,42 @@ function getMapValues(map, clientAddress) {
 function isOnSameNetwork(address1, address2) {
   return true;
 }
+
+const ids = new Map();
+
+function createPin() {
+  return Array.from(crypto.getRandomValues(new Uint8Array(2)))
+    .map((x) => (x % 90) + 10)
+    .join("");
+}
+
+Deno.serve((/** @type {Request} */ req) => {
+  if (req.method === "get") {
+    const query = new URL(req.url).searchParams;
+    return new Response(
+      JSON.stringify({
+        offer: ids.get(query.get("pin")),
+      }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+  } else {
+    const newPin = createPin();
+    ids.set(newPin, req.body);
+
+    res.send({});
+    return new Response(
+      JSON.stringify({
+        pin: newPin,
+      }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+  }
+});

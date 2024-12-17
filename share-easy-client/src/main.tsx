@@ -6,6 +6,7 @@ import About from "./pages/about";
 import { Outlet, Route } from "./module/router";
 import Page404 from "./pages/page-404";
 import { Video } from "./pages/video";
+import { ChatRoom } from "./pages/chat-room";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,11 +15,14 @@ ReactDOM.render(
     </Route>
 
     <Route exact path="/">
-      <App />
+      <Video />
     </Route>
 
     <Route exact path="/video">
-      <Video />
+      <App />
+    </Route>
+    <Route exact path="/chat-room">
+      <ChatRoom />
     </Route>
 
     <Route path=".*">

@@ -1,3 +1,5 @@
+import { sleep } from "./utils";
+
 declare global {
   interface RTCPeerConnection {
     rc: RTCDataChannel;
@@ -11,9 +13,11 @@ declare global {
 }
 
 const pc = new RTCPeerConnection();
+let offer: RTCSessionDescription | null = null;
 pc.onicecandidate = () => {
   console.log("candidate\n", JSON.stringify(pc.localDescription));
   window.a = JSON.stringify(pc.localDescription);
+  offer = pc.localDescription;
 };
 pc.ondatachannel = (e) => {
   pc.rc = e.channel;
@@ -25,28 +29,34 @@ const dc = pc.createDataChannel("sender");
 dc.onopen = () => console.log("Sender opened");
 dc.onmessage = (e) => console.log("message\n" + e.data);
 
-export async function start() {
+export async function createRoom(type: "create" | "join") {
   try {
-    const offer = await pc.createOffer();
-    console.log(JSON.stringify(offer));
-    await pc.setLocalDescription(offer);
-    const answer = prompt("enter receiver json") || "{}";
-    await pc.setRemoteDescription(JSON.parse(answer));
-    console.log("will send");
+    if (type === "create") {
+      await pc.setLocalDescription(await pc.createOffer());
+    } else {
+      await pc.setLocalDescription(await pc.createAnswer());
+    }
+    await sleep(2_000);
+    return offer;
   } catch (err) {
     console.error(err);
   }
 }
 
-export async function receive() {
-  try {
-    const offer = prompt("enter senders offer");
-    if (offer == null) return;
-
-    await pc.setRemoteDescription(JSON.parse(offer));
+export async function join(answer: { sdp?: string; type: "answer" | "offer" }) {
+  if (answer.type === "offer") {
+    await pc.setRemoteDescription(answer);
     await pc.setLocalDescription(await pc.createAnswer());
-    console.log("will receive");
-  } catch (err) {
-    console.error(err);
+    await sleep(2_000);
+    return offer;
+  } else {
+    await pc.setRemoteDescription(answer);
+    return null;
   }
 }
+
+export async function send(message: string | Blob) {
+  dc.send(message as string);
+}
+
+export { pc };
