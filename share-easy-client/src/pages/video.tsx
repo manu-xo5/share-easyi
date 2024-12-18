@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { join, send, createRoom } from "../lib/peer";
+import { join, send, createRoom, pc } from "../lib/peer";
 import { api } from "../lib/api";
 import { sleep } from "../lib/utils";
 import { useNavigate } from "../module/router";
@@ -55,9 +55,14 @@ export const Video: React.FC = () => {
 
             const { offer: answer } = await api.getPeer({ pin: receiverPin });
             if (receiverPin) join(answer);
-            await sleep(3_000);
-            send("hello");
-            navigate("/chat-room");
+
+            function gotoChatRoom() {
+              send("hello");
+              navigate("/chat-room");
+              pc.rc.removeEventListener("open", gotoChatRoom);
+            }
+
+            pc.rc.addEventListener("open", gotoChatRoom);
           }}
         >
           Create
