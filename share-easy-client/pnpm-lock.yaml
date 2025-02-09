@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@types/react-dom':
+        specifier: ^19.0.3
+        version: 19.0.3(@types/react@19.0.8)
       '@types/react-router':
         specifier: ^5.1.20
         version: 5.1.20
@@ -165,6 +168,11 @@ packages:
 
   '@types/history@4.7.11':
     resolution: {integrity: sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==}
+
+  '@types/react-dom@19.0.3':
+    resolution: {integrity: sha512-0Knk+HJiMP/qOZgMyNFamlIjw9OFCsyC2ZbigmEEyXXixgre6IQpm/4V+r3qH4GC1JPvRJKInw+on2rV6YZLeA==}
+    peerDependencies:
+      '@types/react': ^19.0.0
 
   '@types/react-router-dom@5.3.3':
     resolution: {integrity: sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==}
@@ -708,6 +716,10 @@ snapshots:
   '@types/gensync@1.0.4': {}
 
   '@types/history@4.7.11': {}
+
+  '@types/react-dom@19.0.3(@types/react@19.0.8)':
+    dependencies:
+      '@types/react': 19.0.8
 
   '@types/react-router-dom@5.3.3':
     dependencies:
