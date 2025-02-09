@@ -2,11 +2,14 @@ import { defineConfig } from "vite";
 import reactRefresh from "@vitejs/plugin-react-refresh";
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [reactRefresh()],
-  base: "https://manu-xo5.github.io/share-easyi/",
+  base:
+    mode === "development"
+      ? undefined
+      : "https://manu-xo5.github.io/share-easyi/",
   build: {
     emptyOutDir: true,
     outDir: "../dist",
   },
-});
+}));
