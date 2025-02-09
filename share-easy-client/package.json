@@ -1,5 +1,6 @@
 {
   "version": "0.0.0",
+  "homepage": "https://manu-xo5.github.io/share-easyi/",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
