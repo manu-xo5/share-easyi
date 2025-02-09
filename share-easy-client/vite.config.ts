@@ -4,13 +4,9 @@ import reactRefresh from "@vitejs/plugin-react-refresh";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [reactRefresh()],
+  base: "https://manu-xo5.github.io/share-easyi/",
   build: {
     emptyOutDir: true,
     outDir: "../dist",
-  },
-  server: {
-    proxy: {
-      "/*": "https://manu-xo5.github.io/share-easyi",
-    },
   },
 });
