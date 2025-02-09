@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { join, send, createRoom, pc } from "../lib/peer";
 import { api } from "../lib/api";
-import { useNavigation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 function Button({ style, children, ...props }: React.ComponentProps<"button">) {
   return (
