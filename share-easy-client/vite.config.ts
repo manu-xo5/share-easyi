@@ -10,7 +10,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/*": "/share-easyi",
+      "/*": "https://manu-xo5.github.io/share-easyi",
     },
   },
 });
